@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* dark: працює від нашого перемикача теми (атрибут data-theme на <html>) */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Кольори теми ---------- */
+:root,
+[data-theme="light"] {
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --soft: #f1f5f9;
+  --line: #e2e8f0;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 4px 16px rgb(15 23 42 / 0.05);
+  --shadow-hover: 0 10px 30px rgb(15 23 42 / 0.12);
+}
+
+[data-theme="dark"] {
+  --bg: #0b1120;
+  --card: #111a2e;
+  --soft: #172036;
+  --line: #243049;
+  --ink: #e5e7eb;
+  --muted: #94a3b8;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.25);
+  --shadow-hover: 0 10px 30px rgb(0 0 0 / 0.5);
+}
+
+@theme inline {
+  --color-surface: var(--bg);
+  --color-card: var(--card);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brand: #f97316;
+  --color-brand-dark: #ea580c;
+  --color-navy: #0f172a;
+}
+
+html {
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+/* поля форм підлаштовуються під тему */
+input,
+select,
+textarea {
+  background-color: var(--card);
+  color: var(--ink);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+
+/* ---------- Анімації ---------- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.animate-fade-up  { animation: fade-up 0.5s ease-out both; }
+.animate-dropdown { animation: dropdown-in 0.15s ease-out; }
+.animate-toast    { animation: toast-in 0.25s ease-out; }
+.animate-float    { animation: float 6s ease-in-out infinite; }
+
+/* затримки для каскадної появи карток */
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--soft) 25%, var(--line) 37%, var(--soft) 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0.5rem;
+}
+
+/* ефект підйому картки при наведенні */
+.card-lift {
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
